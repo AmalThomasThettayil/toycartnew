@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>toycart | Home</title>
+    <link rel="icon" href="images/favicon tc.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="aranoz/css/bootstrap.min.css">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="aranoz/css/animate.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="aranoz/css/owl.carousel.min.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="aranoz/css/all.css">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="aranoz/css/flaticon.css">
+    <link rel="stylesheet" href="aranoz/css/themify-icons.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="aranoz/css/magnific-popup.css">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="aranoz/css/slick.css">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="aranoz/css/style.css">
+    {{!-- ajax --}}
+    <script src="/user/js/ajax.js"></script>
+</head>
+
+<body>
+
+  {{#if admin}}
+  {{>adminHeader}}
+  {{else}}
+  {{>userHeader}}
+  {{/if}}
+
+  {{{body}}}
+
+ {{>footer}}
+
+ <!-- jquery plugins here-->
+    <script src="aranoz/js/jquery-1.12.1.min.js"></script>
+    <!-- popper js -->
+    <script src="aranoz/js/popper.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="aranoz/js/bootstrap.min.js"></script>
+    <!-- easing js -->
+    <script src="aranoz/js/jquery.magnific-popup.js"></script>
+    <!-- swiper js -->
+    <script src="aranoz/js/swiper.min.js"></script>
+    <!-- swiper js -->
+    <script src="aranoz/js/masonry.pkgd.js"></script>
+    <!-- particles js -->
+    <script src="aranoz/js/owl.carousel.min.js"></script>
+    <script src="aranoz/js/jquery.nice-select.min.js"></script>
+    <!-- slick js -->
+    <script src="aranoz/js/slick.min.js"></script>
+    <script src="aranoz/js/jquery.counterup.min.js"></script>
+    <script src="aranoz/js/waypoints.min.js"></script>
+    <script src="aranoz/js/contact.js"></script>
+    <script src="aranoz/js/jquery.ajaxchimp.min.js"></script>
+    <script src="aranoz/js/jquery.form.js"></script>
+    <script src="aranoz/js/jquery.validate.min.js"></script>
+    <script src="aranoz/js/mail-script.js"></script>
+    <!-- custom js -->
+    <script src="aranoz/js/custom.js"></script>
+    <script src="/user/js/ajax.js" crossorigin="anonymous"></script>
+
+    {{!-- wishlist --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--Sweet Alert CDN-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    
+    <script>
+        function addwishlist() {
+            Swal.fire({
+                title: 'Product added to wishlist!',
+                icon: 'success',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+location.reload();
+            })
+        }
+        function firstlogedin() {
+            Swal.fire({
+                title: 'PLease login first!',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                location.href = '/uLogin'
+
+            })
+        }
+        function alreadyInWish() {
+            Swal.fire({
+                title: 'Item already added!',
+                icon: 'warning',
+                confirmButtonColor: '#3085d6',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+
+
+            })
+        }
+        function add_to_wishlist(proId) {
+
+            $.ajax({
+                url: '/addToWishlist/' + proId,
+                method: 'get',
+                success: (response) => {                   
+                    if (response.msg) {
+
+                        addwishlist()
+                    } else if (response.err) {
+                        alreadyInWish()
+                    }
+                    else {
+                        firstlogedin()
+                    }
+                }
+            })
+        }
+    </script>
+    {{!-- wishlist --}}
+ 
+
+</body>
+
+</html>

@@ -1,0 +1,279 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>toycart | Wishlist</title>
+    <link rel="icon" href="images/favicon tc.png">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="aranoz/css/bootstrap.min.css">
+    <!-- animate CSS -->
+    <link rel="stylesheet" href="aranoz/css/animate.css">
+    <!-- owl carousel CSS -->
+    <link rel="stylesheet" href="aranoz/css/owl.carousel.min.css">
+    <!-- nice select CSS -->
+    <link rel="stylesheet" href="aranoz/css/nice-select.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="aranoz/css/all.css">
+    <!-- flaticon CSS -->
+    <link rel="stylesheet" href="aranoz/css/flaticon.css">
+    <link rel="stylesheet" href="aranoz/css/themify-icons.css">
+    <!-- font awesome CSS -->
+    <link rel="stylesheet" href="aranoz/css/magnific-popup.css">
+    <!-- swiper CSS -->
+    <link rel="stylesheet" href="aranoz/css/slick.css">
+    <link rel="stylesheet" href="aranoz/css/price_rangs.css">
+    <!-- style CSS -->
+    <link rel="stylesheet" href="aranoz/css/style.css">
+    {{!-- font awesome --}}
+    <script src="https://kit.fontawesome.com/a04c146c8c.js" crossorigin="anonymous"></script>
+    {{!-- ajax --}}
+    <script src="/user/js/ajax.js"></script>
+
+</head>
+
+<body>
+
+
+    <!--================Home Banner Area =================-->
+    <!-- breadcrumb start-->
+    <section class="breadcrumb breadcrumb_bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="breadcrumb_iner">
+                        <div class="breadcrumb_iner_item" style="position: relative">
+                            <h2>Wishlist</h2>
+                            <p>Home <span>-</span>Wishlist</p>
+                            <img src="images/cat.png" alt="" style="position: absolute" height="350px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- breadcrumb start-->
+
+    <!--================Cart Area =================-->
+    {{#if wishCount}}
+    <section class="cart_area padding_top">
+        <div class="container">
+            <div class="cart_inner">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Product</th>
+                                <th scope="col">Price</th>
+
+                                <th scope="col">Options</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {{#each wishList.products}}
+                            <tr>
+
+                                <td>
+
+                                    <div class="media">
+                                        <div class="d-flex">
+                                            <img src="/imgUploads/{{pro_Id.image.[0].image1}}" alt="" width="200"
+                                                height="200" />
+                                        </div>
+                                        <div class="media-body">
+                                            <p>{{pro_Id.productName}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <h5>Rs.{{pro_Id.price}}</h5>
+
+
+                                </td>
+                                <td>
+                                    <button class="btn btn-outline-secondary btn-outline-danger" type="button"
+                                        onclick="removeProductFromWish('{{this._id}}')">
+                                        <i class="fa-solid fa-xmark"></i></button>
+
+                                    <button class="btn btn-outline-secondary btn-outline-success" type="button"
+                                        onclick="add_to_cart('{{this._id}}')">
+                                        <i class="fas fa-cart-plus"></i></button>
+
+
+                                </td>
+                            </tr>
+                            {{/each}}
+
+                        </tbody>
+                    </table>
+                    <div class="checkout_btn_inner float-right">
+                        <a class="btn_1" href="/">Continue Shopping</a>
+
+                    </div>
+                </div>
+            </div>
+    </section>
+    {{else}}
+    <section class="cart bgwhite p-3">
+        <div class="container">
+            <div class="card m-auto text-center" style="width: 20rem; border:0px">
+                {{!-- <img src="/https://www.pinterest.com/pin/424253227381104763/" class="card-img-top  m-auto"
+                    style="width: 6rem;" alt="..."> --}}
+                <div class="card-body">
+                    <h4 class="card-title font-weight-bold">Your Wishlist is Empty</h4>
+                    <p class="card-title font-weight-bold">Add something to make me happy!</p>
+                    <a href="/" class="btn btn-primary">Continue shopping</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    {{/if}}
+    <!--================End Cart Area =================-->
+
+    <!--::footer_part start::-->
+    <footer class="footer_part">
+        <div class="container">
+            <div class="row justify-content-around">
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Top Products</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Managed Website</a></li>
+                            <li><a href="">Manage Reputation</a></li>
+                            <li><a href="">Power Tools</a></li>
+                            <li><a href="">Marketing Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Quick Links</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Jobs</a></li>
+                            <li><a href="">Brand Assets</a></li>
+                            <li><a href="">Investor Relations</a></li>
+                            <li><a href="">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Features</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Jobs</a></li>
+                            <li><a href="">Brand Assets</a></li>
+                            <li><a href="">Investor Relations</a></li>
+                            <li><a href="">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                    <div class="single_footer_part">
+                        <h4>Resources</h4>
+                        <ul class="list-unstyled">
+                            <li><a href="">Guides</a></li>
+                            <li><a href="">Research</a></li>
+                            <li><a href="">Experts</a></li>
+                            <li><a href="">Agencies</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                    <div class="single_footer_part">
+                        <h4>Newsletter</h4>
+                        <p>Heaven fruitful doesn't over lesser in days. Appear creeping
+                        </p>
+                        <div id="mc_embed_signup">
+                            <form target="_blank"
+                                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                                method="get" class="subscribe_form relative mail_part">
+                                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
+                                    class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
+                                    onblur="this.placeholder = ' Email Address '">
+                                <button type="submit" name="submit" id="newsletter-submit"
+                                    class="email_icon newsletter-submit button-contactForm">subscribe</button>
+                                <div class="mt-10 info"></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="copyright_part">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8">
+                        <div class="copyright_text">
+                            <P>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                                Copyright &copy;
+                                <script>document.write(new Date().getFullYear());</script> All rights reserved | This
+                                template is made
+                                with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                                    target="_blank">Colorlib</a>
+                                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            </P>
+                        </div>
+                    </div>
+                    <div class="col-lg-4">
+                        <div class="footer_icon social_icon">
+                            <ul class="list-unstyled">
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
+                                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!--::footer_part end::-->
+
+    <!-- jquery plugins here-->
+    <!-- jquery -->
+    <script src="aranoz/js/jquery-1.12.1.min.js"></script>
+    <!-- popper js -->
+    <script src="aranoz/js/popper.min.js"></script>
+    <!-- bootstrap js -->
+    <script src="aranoz/js/bootstrap.min.js"></script>
+    <!-- easing js -->
+    <script src="aranoz/js/jquery.magnific-popup.js"></script>
+    <!-- swiper js -->
+    <script src="aranoz/js/swiper.min.js"></script>
+    <!-- swiper js -->
+    <script src="aranoz/js/masonry.pkgd.js"></script>
+    <!-- particles js -->
+    <script src="aranoz/js/owl.carousel.min.js"></script>
+    <script src="aranoz/js/jquery.nice-select.min.js"></script>
+    <!-- slick js -->
+    <script src="aranoz/js/slick.min.js"></script>
+    <script src="aranoz/js/jquery.counterup.min.js"></script>
+    <script src="aranoz/js/waypoints.min.js"></script>
+    <script src="aranoz/js/contact.js"></script>
+    <script src="aranoz/js/jquery.ajaxchimp.min.js"></script>
+    <script src="aranoz/js/jquery.form.js"></script>
+    <script src="aranoz/js/jquery.validate.min.js"></script>
+    <script src="aranoz/js/mail-script.js"></script>
+    <script src="aranoz/js/stellar.js"></script>
+    <script src="aranoz/js/price_rangs.js"></script>
+    <!-- custom js -->
+    <script src="aranoz/js/custom.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <!--Sweet Alert CDN-->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+       
+       
+    </script>
+</body>
+
+</html>

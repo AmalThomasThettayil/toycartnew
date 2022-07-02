@@ -1,0 +1,447 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Toycart | checkout</title>
+  <link rel="icon" href="images/favicon tc.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+    integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="aranoz/css/bootstrap.min.css">
+  <!-- animate CSS -->
+  <link rel="stylesheet" href="aranoz/css/animate.css">
+  <!-- owl carousel CSS -->
+  <link rel="stylesheet" href="aranoz/css/owl.carousel.min.css">
+  <!-- nice select CSS -->
+  <link rel="stylesheet" href="aranoz/css/nice-select.css">
+  <!-- font awesome CSS -->
+  <link rel="stylesheet" href="aranoz/css/all.css">
+  <!-- flaticon CSS -->
+  <link rel="stylesheet" href="aranoz/css/flaticon.css">
+  <link rel="stylesheet" href="aranoz/css/themify-icons.css">
+  <!-- font awesome CSS -->
+  <link rel="stylesheet" href="aranoz/css/magnific-popup.css">
+  <!-- swiper CSS -->
+  <link rel="stylesheet" href="aranoz/css/slick.css">
+  <link rel="stylesheet" href="aranoz/css/price_rangs.css">
+  <!-- style CSS -->
+  <link rel="stylesheet" href="aranoz/css/style.css">
+  {{!-- font awesome --}}
+  <script src="https://kit.fontawesome.com/a04c146c8c.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+  <!--================Home Banner Area =================-->
+  <!-- breadcrumb start-->
+  <section class="breadcrumb breadcrumb_bg">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="breadcrumb_iner">
+            <div class="breadcrumb_iner_item">
+              <h2>Checkout</h2>
+              <p>Home <span>-</span> Checkout</p>
+              <img src="images/cat.png" alt="" style="position: absolute" height="350px">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb start-->
+
+  <!--================Checkout Area =================-->
+  <section class="checkout_area padding_top">
+    <div class="container">
+
+      <div class="cupon_area">
+        <div class="check_title">
+          <h2>
+            Have a coupon?
+            <a href="#">Click here to enter your code</a>
+          </h2>
+        </div>
+        <input type="text" placeholder="Enter coupon code" />
+        <a class="tp_btn" href="#">Apply Coupon</a>
+      </div>
+      <div class="billing_details">
+        <div class="row">
+          <div class="billing_details ">
+            <div class="row mt-3">
+              <div class="col-lg-8">
+                <h5 style="color:darkmagenta">
+                  or fill the form Below
+                  {{!-- <a href="#">Click here to login</a> --}}
+                </h5>
+                {{!-- <h2>or fill the form Below Billing Details</h2> --}}
+                <form class="row contact_form" action="#" id="checkoutForm" method="post" novalidate="novalidate">
+                  <div class="col-md-12 form-group p_star me-2" style="border: 1px solid #eee;">
+
+                    <input type="text" class="form-control" id="fname" name="name" placeholder="Full name" />
+
+                    <input type="text" class="form-control" id="#" name="userId" value="{{Addresses._id}}" hidden />
+                  </div>
+                  {{!-- <div class="col-md-6 form-group p_star me-2" style="border: 1px solid #eee;">
+                    <input type="text" class="form-control" id="lname" name="lname" placeholder="Last name" />
+                  </div> --}}
+                  {{!-- <div class="col-md-6 form-group p_star">
+                    <input type="text" class="form-control" id="lname" name="name" placeholder="Last name" />
+                  </div> --}}
+                  <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
+                    <input type="text" class="form-control" id="mobile" name="number" placeholder="Phone number" />
+                  </div>
+                  <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" />
+                  </div>
+
+                  <div class="col-md-12 form-group " style="border: 1px solid #eee;">
+                    <input type="text" class="form-control" id="house" name="house"
+                      placeholder="House Name or Company name" />
+                  </div>
+                  <div class="col-md-12 form-group p_star" style="border: 1px solid #eee;">
+                    <input type="text" class="form-control" id="localplace" name="localplace" placeholder="Locality" />
+                  </div>
+                  <div class="col-md-12 form-group p_star" style="border: 1px solid #eee;">
+                    <input type="text" class="form-control" id="town" name="town" placeholder="Town/City" />
+                  </div>
+                  <div class="col-md-12 form-group p_star" style="border: 1px solid #eee">
+                    {{!-- <select class="country_select" name="district">
+                      <option>District</option>
+                      <option>Malappuram</option>
+                      <option>Calicut</option>
+                      <option>Thrissur</option>
+                    </select> --}}
+                    <input type="text" class="form-control" id="district" name="district" placeholder="District" />
+                  </div>
+                  <div class="col-md-12 form-group" style="border: 1px solid #eee">
+                    <input type="text" class="form-control" id="state" name="state" placeholder="State" />
+                  </div>
+                  <div class="col-md-12 form-group" style="border: 1px solid #eee;">
+                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode"
+                      value="" />
+                  </div>
+                  {{!-- <div class="col-md-12 form-group">
+                    <div class="creat_account">
+                      <input type="checkbox" id="f-option2" name="selector" />
+                      <label for="f-option2">Create an account?</label>
+                    </div>
+                  </div> --}}
+                  {{!-- <div class="col-md-12 form-group">
+                    <div class="creat_account">
+                      <h3>Shipping Details</h3>
+                      <input type="checkbox" id="f-option3" name="selector" />
+                      <label for="f-option3">Ship to a different address?</label>
+                    </div>
+                    <textarea class="form-control" name="message" id="message" rows="1"
+                      placeholder="Order Notes"></textarea>
+                  </div> --}}
+                  {{!--
+                </form> --}}
+              </div>
+
+
+
+              <div class="col-lg-4">
+                <div class="order_box">
+                  <h2>Your Order</h2>
+                  <ul class="list">
+                    <li>
+                      <a style="color:darkmagenta" href="#">Products
+                        <span>Total</span>
+                      </a>
+                    </li>
+                    {{#each cartItems.products}}
+
+                    <li>
+                      <a href="#">{{this.pro_Id.productName}}
+                        <span class="middle">x{{this.quantity}} </span>
+                        <span class="last">₹ {{this.price}}</span>
+
+                      </a>
+                    </li>
+
+                    {{/each}}
+
+                    {{!-- <li>
+                      <a href="#">Fresh Tomatoes
+                        <span class="middle">x 02</span>
+                        <span class="last">$720.00</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">Fresh Brocoli
+                        <span class="middle">x 02</span>
+                        <span class="last">$720.00</span>
+                      </a>
+                    </li> --}}
+                  </ul>
+                  <ul class="list list_2">
+                    <li>
+                      <a href="#">Subtotal
+                        <span>₹ {{netTotal}}</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">Shipping
+                        <span style="color:darkred"> ₹ {{deliveryCharge}}</span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">Total
+                        <span> ₹ {{grandTotal}}</span>
+                      </a>
+                    </li>
+                  </ul>
+
+
+                  {{!-- <p>Please select your Payment Method:</p>
+                    <input type="radio" id="Cod" name="PaymentMethod" value="Cash On Delivery">
+                    <label for="Cod">Cash On Delivery</label><br>
+                    <input type="radio" id="Online" name="PaymentMethod" value="Online Payment">
+                    <label for="Online">Online Payment</label><br> --}}
+
+
+                  <div class="payment_item">
+                    <div class="radion_btn">
+                      <input type="radio" id="cod" name="paymentMethod" value="cod" />
+                      <label for="cod">Cash on Delivery</label>
+                      <div class="check"></div>
+
+                      <div class="payment_item ">
+                        <div class="radion_btn">
+                          <input type="radio" id="razorpay" name="paymentMethod" value="online" />
+                          <label for="razorpay">RazorPay</label>
+                          {{!-- <img src="/img1/product/single-product/card.jpg" alt="" /> --}}
+                          <div class="check"></div>
+
+                          {{!-- <div class="creat_account">
+                            <input type="checkbox" id="f-option4" name="selector" />
+                            <label for="f-option4">I've read and accept the </label>
+                            <a href="#">terms & conditions*</a>
+                          </div> --}}
+                          <button class="btn_3" type="submit">Proceed to Pay</button>
+                        </div>
+                      </div>
+                      </form>
+                    </div>
+                  </div>
+  </section>
+
+  
+
+  <!--================End Checkout Area =================-->
+
+  <!--::footer_part start::-->
+  <footer class="footer_part">
+    <div class="container">
+      <div class="row justify-content-around">
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Top Products</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Managed Website</a></li>
+              <li><a href="">Manage Reputation</a></li>
+              <li><a href="">Power Tools</a></li>
+              <li><a href="">Marketing Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Quick Links</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Jobs</a></li>
+              <li><a href="">Brand Assets</a></li>
+              <li><a href="">Investor Relations</a></li>
+              <li><a href="">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Features</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Jobs</a></li>
+              <li><a href="">Brand Assets</a></li>
+              <li><a href="">Investor Relations</a></li>
+              <li><a href="">Terms of Service</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-2">
+          <div class="single_footer_part">
+            <h4>Resources</h4>
+            <ul class="list-unstyled">
+              <li><a href="">Guides</a></li>
+              <li><a href="">Research</a></li>
+              <li><a href="">Experts</a></li>
+              <li><a href="">Agencies</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="col-sm-6 col-lg-4">
+          <div class="single_footer_part">
+            <h4>Newsletter</h4>
+            <p>Heaven fruitful doesn't over lesser in days. Appear creeping
+            </p>
+            <div id="mc_embed_signup">
+              <form target="_blank"
+                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
+                method="get" class="subscribe_form relative mail_part">
+                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
+                  class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
+                  onblur="this.placeholder = ' Email Address '">
+                <button type="submit" name="submit" id="newsletter-submit"
+                  class="email_icon newsletter-submit button-contactForm">subscribe</button>
+                <div class="mt-10 info"></div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <div class="copyright_part">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <div class="copyright_text">
+              <P>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                Copyright &copy;
+                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
+                with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
+                  target="_blank">Colorlib</a>
+                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+              </P>
+            </div>
+          </div>
+          <div class="col-lg-4">
+            <div class="footer_icon social_icon">
+              <ul class="list-unstyled">
+                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
+                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!--::footer_part end::-->
+
+
+  {{!-- razorpay --}}
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+  {{!-- razorpay --}}
+
+  <script>
+    $('#checkoutForm').submit((e) => {
+      e.preventDefault()
+      $.ajax({
+        url: '/placeOrder',
+        method: 'post',
+        data: $('#checkoutForm').serialize(),
+        success: (response) => {
+          if (response.codSuccess) {
+            location.href = '/viewOrderDetails'
+          } else {
+            razorpayPayment(response)
+          }
+        }
+      })
+    });
+
+    function razorpayPayment(order) {
+      alert(order.amount)
+      var options = {
+        "key": "rzp_test_qtIvd5oa07B1XV", // Enter the Key ID generated from the Dashboard
+        "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+        "currency": "INR",
+        "name": "Toycart",
+        "description": "Test Transaction",
+        "image": "images/toycart_logo-removebg-preview.png",
+        "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+        "handler": function (response) {
+
+          verifyPayment(response, order)
+        },
+        "prefill": {
+          "name": "Gaurav Kumar",
+          "email": "gaurav.kumar@example.com",
+          "contact": "9999999999"
+        },
+        "notes": {
+          "address": "Razorpay Corporate Office"
+        },
+        "theme": {
+          "color": "#3399cc"
+        }
+      };
+      var rzp1 = new Razorpay(options);
+      rzp1.open();
+    }
+
+    function verifyPayment(payment, order) {
+      alert('hhhhhhhhhhhhhhhhhhhhhh')
+      $.ajax({
+        url: '/verifyPayment',
+        data: {
+          payment,
+          order
+        },
+        method: "post",
+        success: (response) => {
+          alert(response)
+          if (response.status) {
+            location.href = '/viewOrderDetails'
+          } else {
+            alert('payment failed')
+          }
+
+        }
+      })
+    }
+  </script>
+
+  <!-- jquery plugins here-->
+  <!-- jquery -->
+  <script src="aranoz/js/jquery-1.12.1.min.js"></script>
+  <!-- popper js -->
+  <script src="aranoz/js/popper.min.js"></script>
+  <!-- bootstrap js -->
+  <script src="aranoz/js/bootstrap.min.js"></script>
+  <!-- easing js -->
+  <script src="aranoz/js/jquery.magnific-popup.js"></script>
+  <!-- swiper js -->
+  <script src="aranoz/js/swiper.min.js"></script>
+  <!-- swiper js -->
+  <script src="aranoz/js/masonry.pkgd.js"></script>
+  <!-- particles js -->
+  <script src="aranoz/js/owl.carousel.min.js"></script>
+  <script src="aranoz/js/jquery.nice-select.min.js"></script>
+  <!-- slick js -->
+  <script src="aranoz/js/slick.min.js"></script>
+  <script src="aranoz/js/jquery.counterup.min.js"></script>
+  <script src="aranoz/js/waypoints.min.js"></script>
+  <script src="aranoz/js/contact.js"></script>
+  <script src="aranoz/js/jquery.ajaxchimp.min.js"></script>
+  <script src="aranoz/js/jquery.form.js"></script>
+  <script src="aranoz/js/jquery.validate.min.js"></script>
+  <script src="aranoz/js/mail-script.js"></script>
+  <script src="aranoz/js/stellar.js"></script>
+  <script src="aranoz/js/price_rangs.js"></script>
+  <!-- custom js -->
+  <script src="aranoz/js/custom.js"></script>
+
+</body>
+
+</html>
