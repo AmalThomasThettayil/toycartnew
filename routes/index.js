@@ -5,9 +5,9 @@ const user = require("../models/user");
 const adminHelpers = require("../helpers/adminHelpers");
 const products = require("../models/product");
 const { response } = require("express");
-let filterResult
+let filterResult;
 
-const verifyLogin = (req, res, next) => { 
+const verifyLogin = (req, res, next) => {
   if (req.session.logedin) {
     next();
   } else {
@@ -27,13 +27,14 @@ router.get("/", async function (req, res, next) {
     ]);
   }
 
-  [mostSelling, featuredCat, category, allProducts,carosel] = await Promise.all([
-    userHelpers.getMostSell(),
-    userHelpers.getfeaturedCat(),
-    adminHelpers.getAllCategory(),
-    adminHelpers.getAllProducts(),
-    userHelpers.getAllCarosel()
-  ]);
+  [mostSelling, featuredCat, category, allProducts, carosel] =
+    await Promise.all([
+      userHelpers.getMostSell(),
+      userHelpers.getfeaturedCat(),
+      adminHelpers.getAllCategory(),
+      adminHelpers.getAllProducts(),
+      userHelpers.getAllCarosel(),
+    ]);
   res.render("user/home new", {
     category,
     user,
@@ -42,7 +43,7 @@ router.get("/", async function (req, res, next) {
     mostSelling,
     featuredCat,
     wishCount,
-    carosel
+    carosel,
   });
 });
 
@@ -215,7 +216,7 @@ router.get("/uLogin", function (req, res, next) {
   res.render("user/uLogin", { layout: false });
 });
 
-router.get("/cartNew", verifyLogin, async function (req, res, next) { 
+router.get("/cartNew", verifyLogin, async function (req, res, next) {
   let user = req.session.user;
   if (user) {
     cartCount = await userHelpers.getCartCount(user);
@@ -297,18 +298,17 @@ router.post("/removeProductFromCart", (req, res) => {
 });
 
 router.get("/productDetails/:id", async (req, res) => {
-  const user = req.session.user
-  cartCount=''
-  wishCount=''
+  const user = req.session.user;
+  cartCount = "";
+  wishCount = "";
   if (user) {
-    [cartCount,wishCount] = await Promise.all([
+    [cartCount, wishCount] = await Promise.all([
       userHelpers.getCartCount(user),
       userHelpers.getWishCount(user),
-      
     ]);
   }
-  const mostSelling=await userHelpers.getMostSell()
-  let product = await userHelpers.getProductDetails(req.params.id); 
+  const mostSelling = await userHelpers.getMostSell();
+  let product = await userHelpers.getProductDetails(req.params.id);
   res.render("user/productDetails", {
     product,
     user,
@@ -329,14 +329,14 @@ router.get("/checkout", async (req, res) => {
       userHelpers.getWishCount(user),
     ]);
   }
-  
+
   const cartItems = await userHelpers.getCartItems(req.session.user._id);
   const subTotal = await userHelpers.subTotal(req.session.user._id);
   const totalAmount = await userHelpers.totalAmount(req.session.user._id);
   const netTotal = totalAmount.grandTotal.total;
   const deliveryCharge = await userHelpers.deliveryCharge(netTotal);
   const grandTotal = await userHelpers.grandTotal(netTotal, deliveryCharge);
-  const category = await adminHelpers.getAllCategory()
+  const category = await adminHelpers.getAllCategory();
   res.render("user/checkout", {
     netTotal,
     deliveryCharge,
@@ -346,7 +346,7 @@ router.get("/checkout", async (req, res) => {
     cartItems,
     cartCount,
     wishCount,
-    category
+    category,
   });
 });
 router.post("/placeOrder", async (req, res) => {
@@ -382,9 +382,6 @@ router.get("/viewOrderDetails", async (req, res) => {
   let user = req.session.user;
   userHelpers.getorderProducts(req.session.orderId).then((response) => {
     const orderProducts = response;
-    console.log(
-      orderProducts + "666666666666666666666666444444444444444444444"
-    );
     res.render("user/orderSuccess", { user, orderProducts, layout: false });
   });
 });
@@ -409,7 +406,6 @@ router.get("/orderPage", async (req, res) => {
   console.log(user);
   userHelpers.getAllOrderList(user._id).then((response) => {
     const orderProducts = response;
-    console.log(orderProducts + "444444444444444444444444444444444444444444");
     res.render("user/orderPage", { user, orderProducts, layout: false });
   });
 });
@@ -418,20 +414,15 @@ router.get("/orderTracking/:id", async (req, res) => {
   let user = req.session.user;
   userHelpers.getorderProducts(orderId).then((response) => {
     const orderProducts = response;
-    console.log(orderProducts + "99999999999999999999999999999999999999");
-    // console.log(req.session.orderId);
     res.render("user/orderTracking", { user, orderProducts, layout: false });
   });
 });
 router.get("/singlePProduct/:id", async (req, res) => {
   const productId = req.params.id;
   let user = req.session.user;
-  console.log(user);
-  console.log(productId + "777777777777777777777777777777");
+
   userHelpers.getorderProducts(orderId).then((response) => {
     const orderProducts = response;
-    console.log(orderProducts + "99999999999999999999999999999999999999");
-    // console.log(req.session.orderId);
     res.render("user/orderTracking", { user, orderProducts, layout: false });
   });
 });
@@ -461,33 +452,19 @@ router.delete("/ProductFromWish", (req, res, next) => {
   });
 });
 
-// router.get("/shop",(req,res)=>{
-//   const allProducts = adminHelpers.getAllProducts()
-//   res.render("user/category",{allProducts})
-// })
+router.post("/search-filter", (req, res) => {
+  let a = req.body;
+  let price = parseInt(a.Prize);
+  let brandFilter = a.brand;
+  let categoryFilter = a.category;
 
-router.post('/search-filter', (req, res) => {
-  // console.log("gjhdukhjlsd;===================");
-  console.log(req.body);
-  let a = req.body
-  let price = parseInt(a.Prize)
-  let brandFilter =a.brand
-  let categoryFilter = a.category
-
-  // for (let i of a.brand) {
-  //   brandFilter.push({ 'brand': i })
-  // }
-  // for (let i of a.category) {
-  //   categoryFilter.push({ 'category': i })
-  // }
-  userHelpers.searchFilter(brandFilter, categoryFilter, price).then((result) => {
-    filterResult = result
-    // console.log("==============================================");
-// console.log(result);
-    res.json({ status: true })
-  })
-
-})
+  userHelpers
+    .searchFilter(brandFilter, categoryFilter, price)
+    .then((result) => {
+      filterResult = result;
+      res.json({ status: true });
+    });
+});
 
 router.post("/search", async (req, res) => {
   // console.log("=============================================");
@@ -495,46 +472,48 @@ router.post("/search", async (req, res) => {
   // console.log("[[[[[[[[");
   let key = req.body.key;
   // console.log(key);
-  userHelpers.getSearchProducts(key).then((response)=>{
+  userHelpers.getSearchProducts(key).then((response) => {
     // console.log(";;;;;;;;;;;;;;");
-    filterResult=response
-    res.redirect("/filterPage")
-// res.json(response)
+    filterResult = response;
+    res.redirect("/filterPage");
+    // res.json(response)
     // filterResult = response
     // res.redirect('/filterPage')
-
-  })
+  });
 });
 
-router.get('/shop', (req, res) => {
+router.get("/shop", (req, res) => {
   userHelpers.allproducts().then(async (products) => {
-    filterResult = products
-    res.redirect('/filterPage')
-  })
+    filterResult = products;
+    res.redirect("/filterPage");
+  });
+});
 
-})
-
-router.get('/filterPage', async (req, res) => { 
-  let cartcount = ''
-  let user = req.session.user
+router.get("/filterPage", async (req, res) => {
+  let user = req.session.user;
+  let cartCount = null;
+  let wishCount = null;
   if (user) {
-    cartcount=await userHelpers.getCartCount(req.session.user._id)
-// console.log(cartcount);
+    [cartCount, wishCount] = await Promise.all([
+      userHelpers.getCartCount(user),
+      userHelpers.getWishCount(user),
+    ]);
   }
-  let category =await adminHelpers.getAllCategory();
-  let brands =await adminHelpers.getBrands()
-  // console.log(filterResult);
-  // console.log();
-  res.render('user/b', { filterResult, category, brands, cartcount, layout:false})
 
-})
-
-
-
-// router.get("/product-details/:id", async (req, res) => {
-//   let product = await userHelper.getproductdetalis(req.params.id);
-//   console.log(product);
-//   res.render("product-details", {product,layout:false});
-// });
+ 
+  if (user) {
+    cartcount = await userHelpers.getCartCount(req.session.user._id);
+  }
+  let category = await adminHelpers.getAllCategory();
+  let brands = await adminHelpers.getBrands();
+  res.render("user/b", {
+    filterResult,
+    category,
+    brands,
+    cartCount,
+    user,
+    wishCount,
+  });
+});
 
 module.exports = router;
