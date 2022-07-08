@@ -360,8 +360,7 @@
       })
     });
 
-    function razorpayPayment(order) {
-      alert(order.amount)
+    function razorpayPayment(order) {     
       var options = {
         "key": "rzp_test_qtIvd5oa07B1XV", // Enter the Key ID generated from the Dashboard
         "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -390,8 +389,7 @@
       rzp1.open();
     }
 
-    function verifyPayment(payment, order) {
-      alert('hhhhhhhhhhhhhhhhhhhhhh')
+    function verifyPayment(payment, order) {    
       $.ajax({
         url: '/verifyPayment',
         data: {
@@ -399,8 +397,7 @@
           order
         },
         method: "post",
-        success: (response) => {
-          alert(response)
+        success: (response) => {        
           if (response.status) {
             location.href = '/viewOrderDetails'
           } else {

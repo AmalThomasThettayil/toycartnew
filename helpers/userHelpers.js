@@ -453,13 +453,9 @@ module.exports = {
        })    
     })
   },
-    getorderProducts:(orderid)=>{
-      console.log(orderid);
-      console.log('55555555555555555555');
+    getorderProducts:(orderid)=>{     
       return new Promise(async(resolve,reject)=>{
-          const orderdetails=await orderModel.findOne({_id:orderid}).populate("product.pro_Id").lean()
-          console.log(orderdetails);
-          console.log("8888888888888888888888888888555555555555555");
+          const orderdetails=await orderModel.findOne({_id:orderid}).populate("product.pro_Id").lean()         
           resolve(orderdetails)
       })   
     },

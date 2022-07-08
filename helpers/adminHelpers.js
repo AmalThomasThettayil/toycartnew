@@ -14,7 +14,12 @@ module.exports = {
       resolve(users);
     });
   },
-
+  getAdmin: () => {
+    return new Promise(async (resolve, reject) => {
+      let admin = await adminData.findOne().lean();
+      resolve(admin);
+    });
+  },
   addBrand: (data) => {
     return new Promise(async (resolve, reject) => {
       const brandNames = data.brand;
@@ -258,6 +263,20 @@ doAdminLogin: (data) => {
     }
   });
 },
-
+changeOrderStatus: (data) => {
+  console.log(data);
+  return new Promise(async (resolve, reject) => {
+    const status = await orderModel.findOneAndUpdate(
+      { _id: data.orderId, "product._id": data.proId },
+      {
+        $set: {
+          "product.$.status": data.orderStatus
+        },
+      } 
+    );
+    console.log(status);
+    resolve();
+  });
+},
 
 }

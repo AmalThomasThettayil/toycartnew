@@ -3,7 +3,7 @@ const router = express.Router();
 const adminHelpers = require("../helpers/adminHelpers");
 const Storage = require("../middleware/multer");
 
-const verifyLogin = (req, res, next) => { 
+const verifyLogin = (req, res, next) => {
   if (req.session.adminlogin) {
     next();
   } else {
@@ -11,56 +11,54 @@ const verifyLogin = (req, res, next) => {
   }
 };
 
-router.get("/", function (req, res, next) { 
-  res.render("admin/adminLogin", { 
-    logErr:req.session.adminloggErr,
-     layout: false
-     });
-  req.session.adminloggErr = null
+router.get("/", function (req, res, next) {
+  res.render("admin/adminLogin", {
+    logErr: req.session.adminloggErr,
+    layout: false,
+  });
+  req.session.adminloggErr = null;
 });
 
 router.post("/adminLogin", function (req, res, next) {
-
-    adminHelpers
-      .doAdminLogin(req.body)
-      .then((response) => {       
-        req.session.adminlogin = true;
-        req.session.admin = response.admin;       
-        res.redirect("/admin/adminDash");
-      })
-      .catch((err) => {
-        req.session.adminloggErr = err.msg;
-        res.redirect("/admin");
-      });
-  });
-
- 
-router.get("/adminDash",verifyLogin, function (req, res, next) { 
-  res.render("admin/adminDash", { layout: false});
+  adminHelpers
+    .doAdminLogin(req.body)
+    .then((response) => {
+      req.session.adminlogin = true;
+      req.session.admin = response.admin;
+      res.redirect("/admin/adminDash");
+    })
+    .catch((err) => {
+      req.session.adminloggErr = err.msg;
+      res.redirect("/admin");
+    });
 });
+
+router.get("/adminDash", verifyLogin, function (req, res, next) {
+  adminHelpers.getAdmin().then((admin) => {
+    res.render("admin/adminDash", { layout: false, admin });
+  });
+});
+
 router.get("/adminLogout", function (req, res, next) {
   res.redirect("/admin");
   req.session.destroy();
 });
 
-
-router.get("/productManage",verifyLogin, async function (req, res, next) {
-
+router.get("/productManage", verifyLogin, async function (req, res, next) {
   const products = await adminHelpers.getAllProducts();
-  console.log(products);
-  // const alert=req.flash('msg')
-  res.render("admin/productManage", { products, layout: false });
-});
-
-router.get("/userManage",verifyLogin, function (req, res, next) {
-  adminHelpers.getAllUsers().then((user) => {
-    res.render("admin/userManage", { layout: false, user });
+  adminHelpers.getAdmin().then((admin) => {
+    res.render("admin/productManage", { admin, products, layout: false });
   });
 });
 
-router.get("/addbrands",verifyLogin, async (req, res) => {
-  const categories = await adminHelpers.getAllCategory();
-  console.log(categories);
+router.get("/userManage", verifyLogin, async function (req, res, next) {
+  const user = await adminHelpers.getAllUsers();
+  const admin = await adminHelpers.getAdmin();
+  res.render("admin/userManage", { layout: false, user, admin });
+});
+
+router.get("/addbrands", verifyLogin, async (req, res) => {
+  const categories = await adminHelpers.getAllCategory(); 
   res.render("admin/addBrands", {
     categories,
     layout: false,
@@ -70,39 +68,31 @@ router.get("/addbrands",verifyLogin, async (req, res) => {
   req.session.loggE = null;
   req.session.loggC = null;
 });
-router.post("/addBrands", (req, res) => {
-  console.log(req.body);
-  console.log("hfdajshfjhasg");
+router.post("/addBrands", (req, res) => { 
   adminHelpers
     .addBrand(req.body)
     .then((response) => {
       res.redirect("/admin/addbrands");
     })
     .catch((err) => {
-      req.session.loggE = err.msg;
-      console.log(req.session.loggE);
+      req.session.loggE = err.msg;     
       res.redirect("/admin/addbrands");
     });
 });
 
-router.post("/addCategory", (req, res) => {
-  console.log(req.body);
-  console.log("category log");
+router.post("/addCategory", (req, res) => { 
   adminHelpers
     .addCategory(req.body)
     .then((response) => {
       res.redirect("/admin/addBrands");
     })
     .catch((err) => {
-      req.session.loggC = err.msg;
-      console.log(req.session.loggC);
+      req.session.loggC = err.msg;      
       res.redirect("/admin/addbrands");
     });
 });
 
 router.post("/addSubcategory", (req, res) => {
-  console.log(req.body);
-
   adminHelpers
     .addSubcategory(req.body)
     .then((response) => {
@@ -122,11 +112,10 @@ router.delete("/User/:id", function (req, res, next) {
   });
 });
 
-router.get("/addProducts",verifyLogin, async (req, res) => {
+router.get("/addProducts", verifyLogin, async (req, res) => {
   const category = await adminHelpers.getAllCategory();
   const brandName = await adminHelpers.getBrands();
-  const subcategory = await adminHelpers.getAllSubcategory();
-  console.log(brandName);
+  const subcategory = await adminHelpers.getAllSubcategory();  
   res.render("admin/addProduct", {
     category,
     subcategory,
@@ -144,8 +133,7 @@ router.post(
     { name: "image3", maxCount: 1 },
     { name: "image4", maxCount: 1 },
   ]),
-  function (req, res, next) {
-    console.log("post add products");
+  function (req, res, next) {    
     let img1 = req.files.image1[0].filename;
     let img2 = req.files.image2[0].filename;
     let img3 = req.files.image3[0].filename;
@@ -154,28 +142,22 @@ router.post(
     adminHelpers
       .addProduct(req.body, img1, img2, img3, img4)
       .then((response) => {
-        res.redirect("/admin/productManage");
-        console.log(response);
+        res.redirect("/admin/productManage");      
       });
   }
 );
-router.get("/deleteProduct/:id",verifyLogin, (req, res) => {
-  console.log(req.params.id+'inside deleteeeeeeeeeeeeeeeeeeeeeeeeeeeee');
+router.get("/deleteProduct/:id", verifyLogin, (req, res) => { 
   const proId = req.params.id;
   adminHelpers.deleteProduct(proId).then((response) => {
     req.session.removedProduct = response;
     res.redirect("/admin/productManage");
-  });
-  console.log(proId);
+  });  
 });
-router.get("/editProduct/:id",verifyLogin, async (req, res) => {
-  let product = await adminHelpers.getProductDetails(req.params.id);
-  console.log(product+'111111111111111111111111111111');
+router.get("/editProduct/:id", verifyLogin, async (req, res) => {
+  let product = await adminHelpers.getProductDetails(req.params.id); 
   const category = await adminHelpers.getAllCategory();
   const brandName = await adminHelpers.getBrands();
-  const subcategory = await adminHelpers.getAllSubcategory();
-  console.log("got all details");
-  console.log(product.productName);
+  const subcategory = await adminHelpers.getAllSubcategory(); 
   res.render("admin/editProduct", {
     subcategory,
     category,
@@ -185,7 +167,8 @@ router.get("/editProduct/:id",verifyLogin, async (req, res) => {
     layout: false,
   });
 });
-router.post("/editProduct/:id",
+router.post(
+  "/editProduct/:id",
   Storage.fields([
     { name: "image1", maxCount: 1 },
     { name: "image2", maxCount: 1 },
@@ -194,7 +177,7 @@ router.post("/editProduct/:id",
   ]),
   function (req, res) {
     const proId = req.params.id;
-     const img1 = req.files.image1
+    const img1 = req.files.image1
       ? req.files.image1[0].filename
       : req.body.image1;
     const img2 = req.files.image2
@@ -206,58 +189,54 @@ router.post("/editProduct/:id",
     const img4 = req.files.image4
       ? req.files.image4[0].filename
       : req.body.image4;
-          console.log(img1, img2, img3, img4);
-    adminHelpers.updateProduct(req.body, proId, img1, img2, img3, img4)
+    console.log(img1, img2, img3, img4);
+    adminHelpers
+      .updateProduct(req.body, proId, img1, img2, img3, img4)
       .then((response) => {
-        console.log(response);
         res.redirect("/admin/productManage");
       });
   }
 );
 
-router.get("/blockUser/:id",verifyLogin, (req, res) => {
-  const proId = req.params.id; 
-  console.log(proId);
-  console.log("sdjfhusguasuashguahshasdgs");
+router.get("/blockUser/:id", verifyLogin, (req, res) => {
+  const proId = req.params.id;  
   adminHelpers.blockUser(proId).then((response) => {
-    res.json({status:true})
-    });
-});
-router.get("/unBlockUser/:id",verifyLogin, (req, res) => {
-  const proId = req.params.id;
-  console.log("esfhusayfuahiuashahsfhasdu");
-  adminHelpers.unBlockUser(proId).then((response) => {  
+    res.json({ status: true });
   });
 });
+router.get("/unBlockUser/:id", verifyLogin, (req, res) => {
+  const proId = req.params.id; 
+  adminHelpers.unBlockUser(proId).then((response) => {});
+});
 
-router.get('/orders',verifyLogin,(req,res)=>{
-  adminHelpers.allOrders().then((response)=>{
-    const allOrders=response
-    res.render('admin/orders',{allOrders,layout:false})
-    
-  })
-})
+router.get("/orders", verifyLogin, async (req, res) => {
+  const allOrders = await adminHelpers.allOrders();
+  const admin = await adminHelpers.getAdmin();
+  res.render("admin/orders", { allOrders,admin,layout:false });
+});
 
-
-router.get('/orderDetails/:id',verifyLogin,(req,res)=>{
-  adminHelpers.orderDetails(req.params.id).then((response)=>{
-    const order=response
-    res.render('admin/orderDetails',{order,admin:true,layout:false})
-    
-  })
-})
-router.post('/changeProductType',(req,res)=>{
-  console.log('inside change')
-  adminHelpers.changeProductType(req.body).then((response)=>{
-    res.redirect('/admin/productManage')
-  })
-})
-router.post('/changeCarosel',(req,res)=>{
-  console.log('inside change carosel')
-  adminHelpers.changeCarosel(req.body).then((response)=>{
-    res.redirect('/admin/productManage')
-  })
-})
+router.get("/orderDetails/:id", verifyLogin,async (req, res) => {
+  const admin =await adminHelpers.getAdmin()
+  adminHelpers.orderDetails(req.params.id).then((response) => {
+    const order = response;
+    res.render("admin/orderDetails", { order, admin, layout: false });
+  });
+});
+router.post("/changeProductType", (req, res) => { 
+  adminHelpers.changeProductType(req.body).then((response) => {
+    res.redirect("/admin/productManage");
+  });
+});
+router.post("/changeCarosel", (req, res) => {  
+  adminHelpers.changeCarosel(req.body).then((response) => {
+    res.redirect("/admin/productManage");
+  });
+});
+router.post("/changeOrderStatus", (req, res) => { 
+  adminHelpers.changeOrderStatus(req.body).then((response) => {   
+    res.json({modified:true}); 
+  });
+});
 
 
 module.exports = router;
