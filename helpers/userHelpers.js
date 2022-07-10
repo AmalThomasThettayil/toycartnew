@@ -363,10 +363,8 @@ module.exports = {
       }
     });
   },
-  totalAmount: (userData) => {
-    // console.log(userData);
-    const id = mongoose.Types.ObjectId(userData);
-    // console.log('----------------------------------------');
+  totalAmount: (userData) => {   
+    const id = mongoose.Types.ObjectId(userData);    
     return new Promise(async (resolve, reject) => {
       const total = await cart.aggregate([
         {
@@ -395,17 +393,12 @@ module.exports = {
           },
         },
       ]);
-      // console.log(total[0].total);
-      // totalpaid=total[0].total;
+      
       console.log("total amount");
       if (total.length == 0) {
         resolve({ status: true });
       } else {
         let grandTotal = total.pop();
-
-        // await cartModel.findOneAndUpdate(
-        //   { user:id},
-        // {$set:{total:grandTotal.total}})
         resolve({ grandTotal, status: true });
       }
     });
@@ -427,13 +420,19 @@ module.exports = {
   },
   placeOrder: (order, cartItem, grandTotal, DeliveryCharges, netTotal, user) => {
     return new Promise(async (resolve, reject) => {
+      grandTotal = parseInt(order.total) + parseInt(DeliveryCharges);
+      let id = mongoose.Types.ObjectId(user._id);
       const status = order.paymentMethod === "cod" ? "placed" : "pending";
      
       const orderObj = await orderModel({
         user_Id: user._id,
-        Total: netTotal,
+        Total: grandTotal,
         ShippingCharge: DeliveryCharges,
-        grandTotal: grandTotal,
+        grandTotal: order.mainTotal,
+        coupondiscountedPrice: order.discountedPrice,
+        couponPercent: order.discoAmountpercentage,
+        couponName: order.couponName,
+        PaidAmount: order.mainTotal,
         payment_status: status,
         paymentMethod: order.paymentMethod,
         ordered_on: new Date(),
@@ -451,6 +450,28 @@ module.exports = {
         },
       });
       await orderObj.save(async (err, res) => {
+        const data = await cart.aggregate([
+          {
+            $match: { user: id },
+          },
+          {
+            $unwind: "$products",
+          },
+          {
+            $project: {
+              quantity: "$products.quantity",
+              id: "$products.pro_Id",
+            },
+          },
+        ]);
+        data.forEach(async (amt) => {
+          await productData.findOneAndUpdate(
+            {
+              _id: amt.id,
+            },
+            { $inc: { stock: -amt.quantity } }
+          );
+        });
         await cart.remove({ user: order.userId });
         resolve(orderObj);
       });
@@ -493,11 +514,9 @@ module.exports = {
           details["payment[razorpay_payment_id]"]
       );
       hmac = hmac.digest("hex");
-      if (hmac == details["payment[razorpay_signature]"]) {
-        console.log("000000000000");
+      if (hmac == details["payment[razorpay_signature]"]) {        
         resolve();
-      } else {
-        console.log("5555555555555555");
+      } else {        
         reject();
       }
     });

@@ -351,8 +351,7 @@ router.get("/checkout", async (req, res) => {
 });
 router.post("/placeOrder", async (req, res) => {
   const cartItem = await userHelpers.getCartItems(req.session.user._id);
-  const totalAmount = await userHelpers.totalAmount(req.session.user._id);
-  const subTotal = await userHelpers.subTotal(req.session.user._id);
+  const totalAmount = await userHelpers.totalAmount(req.session.user._id);  
   const netTotal = totalAmount.grandTotal.total;
   const DeliveryCharges = await userHelpers.deliveryCharge(netTotal);
   const grandTotal = await userHelpers.grandTotal(netTotal, DeliveryCharges);
@@ -369,11 +368,10 @@ router.post("/placeOrder", async (req, res) => {
       req.session.orderId = response._id;
       const orderId = response._id;
       console.log(orderId);
-      if (req.body["paymentMethod"] === "cod") {
-        console.log("++");
+      if (req.body["paymentMethod"] === "cod") {       
         res.json({ codSuccess: true });
       } else {
-        userHelpers.createRazorpay(orderId, grandTotal).then((response) => {
+        userHelpers.createRazorpay(orderId,  req.body.mainTotal).then((response) => {
           res.json(response);
         });
       }

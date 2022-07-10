@@ -285,7 +285,7 @@
 
 
 
- 
+
   <script>
     function autofill(fname, mobile, email, house, town, district, state, pincode) {
       document.getElementById('fname').value = fname
@@ -322,8 +322,8 @@
   </script>
   <script>
     function couponApply() {
-      let couponCode = document.getElementById('couponInput').value     
-      let couponTotal = document.getElementById('couponTotal').value      
+      let couponCode = document.getElementById('couponInput').value
+      let couponTotal = document.getElementById('couponTotal').value
       let DeliveryCharges = document.getElementById('DeliveryCharges').value
       document.getElementById('couponName').value = couponCode
 
@@ -340,9 +340,9 @@
             let oldTotal = parseInt(document.getElementById('couponTotal').value)
             let discount = oldTotal - parseInt(response.total) + parseInt(DeliveryCharges)
             let discountpercentag = parseInt(response.discountpers)
-            document.getElementById('totalwithCoupon').innerHTML ='₹'+ response.total
+            document.getElementById('totalwithCoupon').innerHTML = '₹' + response.total
             document.getElementById('discountedPrice').value = discount
-            document.getElementById('discount').innerHTML ='₹'+ discount
+            document.getElementById('discount').innerHTML = '₹' + discount
             document.getElementById('discoAmountpercentage').value = discountpercentag
 
 
@@ -406,7 +406,7 @@
     }
   </script>
 
-   {{!-- razorpay --}}
+  {{!-- razorpay --}}
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   {{!-- razorpay --}}
 
