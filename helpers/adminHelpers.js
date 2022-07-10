@@ -6,6 +6,7 @@ const productData=require('../models/product');
 const orderModel = require('../models/order')
 const adminData=require('../models/admin');
 const bcrypt = require("bcrypt");
+const couponmodel = require("../models/Coupon");
 
 module.exports = {
   getAllUsers: () => {
@@ -276,6 +277,45 @@ changeOrderStatus: (data) => {
     );
     console.log(status);
     resolve();
+  });
+},
+getAllCoupons: () => {
+  return new Promise(async (resolve, reject) => {
+    const AllCoupons = await couponmodel.find({}).lean();
+    resolve(AllCoupons);
+  });
+},
+AddCoupon: (data) => {
+  return new Promise(async (resolve, reject) => {
+    const newCoupon = new couponmodel({
+      couponName: data.couponName,
+      couponCode: data.CoupoCode,
+      limit: data.Limit,
+      expirationTime: data.ExpireDate,
+      discount: data.discount,
+    });
+    await newCoupon.save();
+    resolve();
+  });
+},
+deletecoupon: (couponId) => {
+  return new Promise(async (resolve, reject) => {
+    const deletecoupon = await couponmodel.findByIdAndDelete({
+      _id: couponId,
+    });
+    resolve(deletecoupon);
+  });
+},
+getOrderCount: () => {
+  return new Promise(async (resolve, reject) => {
+    const OrderCount = await orderModel.find({}).count();
+    resolve(OrderCount);
+  });
+},
+getProductCount: () => {
+  return new Promise(async (resolve, reject) => {
+    const ProductCount = await productData.find({}).count();
+    resolve(ProductCount);
   });
 },
 

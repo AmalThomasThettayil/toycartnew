@@ -13,6 +13,18 @@ const UserSchema = new Schema({
   block: {
     type: Boolean,
   },
+  address:[{
+    fname:String,
+    lname:String,
+    house:String,
+    towncity:String, 
+    district:String,
+    state:String,
+    pincode:Number, 
+    email:String,
+    mobile:String,
+    locality:String,
+}],
 });
 const User = mongoose.model("user", UserSchema);
 module.exports = User;

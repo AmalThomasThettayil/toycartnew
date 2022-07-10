@@ -33,9 +33,17 @@ router.post("/adminLogin", function (req, res, next) {
     });
 });
 
-router.get("/adminDash", verifyLogin, function (req, res, next) {
+router.get("/adminDash", verifyLogin,async function (req, res, next) {  
+  [OrderCount, ProductCount] = await Promise.all([
+    adminHelpers.getOrderCount(),
+    adminHelpers.getProductCount(),
+  ]);
   adminHelpers.getAdmin().then((admin) => {
-    res.render("admin/adminDash", { layout: false, admin });
+    res.render("admin/adminDash", { 
+      layout: false,
+      admin,
+      OrderCount,
+      ProductCount });
   });
 });
 
@@ -235,6 +243,26 @@ router.post("/changeCarosel", (req, res) => {
 router.post("/changeOrderStatus", (req, res) => { 
   adminHelpers.changeOrderStatus(req.body).then((response) => {   
     res.json({modified:true}); 
+  });
+});
+router.get("/coupon-manegement", (req, res) => {
+  adminHelpers.getAllCoupons(req.body).then((response) => {
+    const AllCoupons = response;
+    res.render("admin/coupon-manegement", { AllCoupons, layout: false });
+  });
+});
+router.get("/deletecoupon/:id", (req, res) => {
+  adminHelpers.deletecoupon(req.params.id).then((response) => {
+    res.json({ coupondeleted: true });
+  });
+});
+
+router.get("/addcoupon", (req, res) => {
+  res.render("admin/addcoupon", { layout: false });
+});
+router.post("/AddCoupon", (req, res) => {
+  adminHelpers.AddCoupon(req.body).then(() => {
+    res.redirect("/admin/coupon-manegement");
   });
 });
 

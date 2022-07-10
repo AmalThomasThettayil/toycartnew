@@ -7,9 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <title>Toycart | checkout</title>
   <link rel="icon" href="images/favicon tc.png">
+  {{!-- ajax --}}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
     integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="aranoz/css/bootstrap.min.css">
   <!-- animate CSS -->
@@ -56,290 +58,355 @@
   </section>
   <!-- breadcrumb start-->
 
-  <!--================Checkout Area =================-->
-  <section class="checkout_area padding_top">
-    <div class="container">
-
-      <div class="cupon_area">
+  <!--================Checkout Area R=================-->
+  <section class="checkout_area mt-5 mb-5 ">
+    <div class="container mt-1">
+      <div class="returning_customer mb-4 mt-4 ">
         <div class="check_title">
-          <h2>
-            Have a coupon?
-            <a href="#">Click here to enter your code</a>
-          </h2>
+          <h5 style="color:darkmagenta">
+            please select a address
+          </h5>
         </div>
-        <input type="text" placeholder="Enter coupon code" />
-        <a class="tp_btn" href="#">Apply Coupon</a>
       </div>
-      <div class="billing_details">
-        <div class="row">
-          <div class="billing_details ">
-            <div class="row mt-3">
-              <div class="col-lg-8">
-                <h5 style="color:darkmagenta">
-                  or fill the form Below
-                  {{!-- <a href="#">Click here to login</a> --}}
-                </h5>
-                {{!-- <h2>or fill the form Below Billing Details</h2> --}}
-                <form class="row contact_form" action="#" id="checkoutForm" method="post" novalidate="novalidate">
-                  <div class="col-md-12 form-group p_star me-2" style="border: 1px solid #eee;">
+      <div class=" container-fluid content-row  mb-4 ">
 
-                    <input type="text" class="form-control" id="fname" name="name" placeholder="Full name" />
+        <div class="row mb-4 mt-4 ">
+          {{#each Addresses.address}}
 
-                    <input type="text" class="form-control" id="#" name="userId" value="{{Addresses._id}}" hidden />
-                  </div>
-                  {{!-- <div class="col-md-6 form-group p_star me-2" style="border: 1px solid #eee;">
-                    <input type="text" class="form-control" id="lname" name="lname" placeholder="Last name" />
-                  </div> --}}
-                  {{!-- <div class="col-md-6 form-group p_star">
-                    <input type="text" class="form-control" id="lname" name="name" placeholder="Last name" />
-                  </div> --}}
-                  <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
-                    <input type="text" class="form-control" id="mobile" name="number" placeholder="Phone number" />
-                  </div>
-                  <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
-                    <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" />
-                  </div>
+          <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
+            <div class="card rounded h-100 ">
+              <h3></h3>
+              <p style="color:black">{{this.fname}} {{this.lname}}, {{this.house}}, {{this.towncity}},
+                {{this.district}}, {{this.state}}, Pincode: {{this.pincode}}</p>
+              <P style="color:black">Email: {{this.email}}</P>
+              <p style="color:black">Mobile: {{this.mobile}}</p>
 
-                  <div class="col-md-12 form-group " style="border: 1px solid #eee;">
-                    <input type="text" class="form-control" id="house" name="house"
-                      placeholder="House Name or Company name" />
-                  </div>
-                  <div class="col-md-12 form-group p_star" style="border: 1px solid #eee;">
-                    <input type="text" class="form-control" id="localplace" name="localplace" placeholder="Locality" />
-                  </div>
-                  <div class="col-md-12 form-group p_star" style="border: 1px solid #eee;">
-                    <input type="text" class="form-control" id="town" name="town" placeholder="Town/City" />
-                  </div>
-                  <div class="col-md-12 form-group p_star" style="border: 1px solid #eee">
-                    {{!-- <select class="country_select" name="district">
-                      <option>District</option>
-                      <option>Malappuram</option>
-                      <option>Calicut</option>
-                      <option>Thrissur</option>
-                    </select> --}}
-                    <input type="text" class="form-control" id="district" name="district" placeholder="District" />
-                  </div>
-                  <div class="col-md-12 form-group" style="border: 1px solid #eee">
-                    <input type="text" class="form-control" id="state" name="state" placeholder="State" />
-                  </div>
-                  <div class="col-md-12 form-group" style="border: 1px solid #eee;">
-                    <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Pincode"
-                      value="" />
-                  </div>
-                  {{!-- <div class="col-md-12 form-group">
-                    <div class="creat_account">
-                      <input type="checkbox" id="f-option2" name="selector" />
-                      <label for="f-option2">Create an account?</label>
-                    </div>
-                  </div> --}}
-                  {{!-- <div class="col-md-12 form-group">
-                    <div class="creat_account">
-                      <h3>Shipping Details</h3>
-                      <input type="checkbox" id="f-option3" name="selector" />
-                      <label for="f-option3">Ship to a different address?</label>
-                    </div>
-                    <textarea class="form-control" name="message" id="message" rows="1"
-                      placeholder="Order Notes"></textarea>
-                  </div> --}}
-                  {{!--
-                </form> --}}
+              <button class="btn btn-primary"
+                onclick="autofill('{{this.fname}}','{{this.mobile}}','{{this.email}}','{{this.house}}','{{this.towncity}}','{{this.district}}','{{this.state}}','{{this.pincode}}')">use
+                this Address</button>
+            </div>
+          </div>
+          {{/each}}
+        </div>
+      </div>
+      <div class="billing_details ">
+        <div class="row mt-3">
+          <div class="col-lg-8">
+            <h5 style="color:darkmagenta">
+              or fill the form Below
+            </h5>
+            <form class="row contact_form address-form" action="#" id="checkoutForm" method="post">
+              <div class="col-md-12 form-group p_star me-2" style="border: 1px solid #eee;">
+
+                <input type="text" class="form-control" id="fname" name="fname" placeholder="Full name" required>
+
+                <input type="text" class="form-control" id="#" name="userId" value="{{Addresses._id}}" hidden />
+              </div>
+              <div class="col-md-12 form-group" hidden>
+                <input type="text" class="form-control" id="discountedPrice" name="discountedPrice" value="0" hidden />
+              </div>
+              <div class="col-md-12 form-group" hidden>
+                <input type="number" class="form-control" id="MainTotal" name="mainTotal" value="{{grandTotal}}"
+                  hidden />
+              </div>
+              <div class="col-md-12 form-group" hidden>
+                <input type="text" class="form-control" id="couponName" name="couponName" value="No Coupon Applied"
+                  hidden />
+              </div>
+              <div class="col-md-12 form-group" hidden>
+                <input type="number" class="form-control" id="discoAmountpercentage" name="discoAmountpercentage" hidden
+                  value="0" />
+              </div>
+              <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
+                <input type="text" class="form-control" id="mobile" name="number" placeholder="Phone number" required />
+              </div>
+              <div class="col-md-6 form-group p_star" style="border: 1px solid #eee;">
+                <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" required />
               </div>
 
-
-
-              <div class="col-lg-4">
-                <div class="order_box">
-                  <h2>Your Order</h2>
-                  <ul class="list">
-                    <li>
-                      <a style="color:darkmagenta" href="#">Products
-                        <span>Total</span>
-                      </a>
-                    </li>
-                    {{#each cartItems.products}}
-
-                    <li>
-                      <a href="#">{{this.pro_Id.productName}}
-                        <span class="middle">x{{this.quantity}} </span>
-                        <span class="last">₹ {{this.price}}</span>
-
-                      </a>
-                    </li>
-
-                    {{/each}}
-
-                    {{!-- <li>
-                      <a href="#">Fresh Tomatoes
-                        <span class="middle">x 02</span>
-                        <span class="last">$720.00</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">Fresh Brocoli
-                        <span class="middle">x 02</span>
-                        <span class="last">$720.00</span>
-                      </a>
-                    </li> --}}
-                  </ul>
-                  <ul class="list list_2">
-                    <li>
-                      <a href="#">Subtotal
-                        <span>₹ {{netTotal}}</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">Shipping
-                        <span style="color:darkred"> ₹ {{deliveryCharge}}</span>
-                      </a>
-                    </li>
-                    <li>
-                      <a href="#">Total
-                        <span> ₹ {{grandTotal}}</span>
-                      </a>
-                    </li>
-                  </ul>
-
-
-                  {{!-- <p>Please select your Payment Method:</p>
-                    <input type="radio" id="Cod" name="PaymentMethod" value="Cash On Delivery">
-                    <label for="Cod">Cash On Delivery</label><br>
-                    <input type="radio" id="Online" name="PaymentMethod" value="Online Payment">
-                    <label for="Online">Online Payment</label><br> --}}
-
-
-                  <div class="payment_item">
-                    <div class="radion_btn">
-                      <input type="radio" id="cod" name="paymentMethod" value="cod" />
-                      <label for="cod">Cash on Delivery</label>
-                      <div class="check"></div>
-
-                      <div class="payment_item ">
-                        <div class="radion_btn">
-                          <input type="radio" id="razorpay" name="paymentMethod" value="online" />
-                          <label for="razorpay">RazorPay</label>
-                          {{!-- <img src="/img1/product/single-product/card.jpg" alt="" /> --}}
-                          <div class="check"></div>
-
-                          {{!-- <div class="creat_account">
-                            <input type="checkbox" id="f-option4" name="selector" />
-                            <label for="f-option4">I've read and accept the </label>
-                            <a href="#">terms & conditions*</a>
-                          </div> --}}
-                          <button class="btn_3" type="submit">Proceed to Pay</button>
-                        </div>
-                      </div>
-                      </form>
-                    </div>
-                  </div>
-  </section>
-
-  
-
-  <!--================End Checkout Area =================-->
-
-  <!--::footer_part start::-->
-  <footer class="footer_part">
-    <div class="container">
-      <div class="row justify-content-around">
-        <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-            <h4>Top Products</h4>
-            <ul class="list-unstyled">
-              <li><a href="">Managed Website</a></li>
-              <li><a href="">Manage Reputation</a></li>
-              <li><a href="">Power Tools</a></li>
-              <li><a href="">Marketing Service</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-            <h4>Quick Links</h4>
-            <ul class="list-unstyled">
-              <li><a href="">Jobs</a></li>
-              <li><a href="">Brand Assets</a></li>
-              <li><a href="">Investor Relations</a></li>
-              <li><a href="">Terms of Service</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-            <h4>Features</h4>
-            <ul class="list-unstyled">
-              <li><a href="">Jobs</a></li>
-              <li><a href="">Brand Assets</a></li>
-              <li><a href="">Investor Relations</a></li>
-              <li><a href="">Terms of Service</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-2">
-          <div class="single_footer_part">
-            <h4>Resources</h4>
-            <ul class="list-unstyled">
-              <li><a href="">Guides</a></li>
-              <li><a href="">Research</a></li>
-              <li><a href="">Experts</a></li>
-              <li><a href="">Agencies</a></li>
-            </ul>
-          </div>
-        </div>
-        <div class="col-sm-6 col-lg-4">
-          <div class="single_footer_part">
-            <h4>Newsletter</h4>
-            <p>Heaven fruitful doesn't over lesser in days. Appear creeping
-            </p>
-            <div id="mc_embed_signup">
-              <form target="_blank"
-                action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&amp;id=92a4423d01"
-                method="get" class="subscribe_form relative mail_part">
-                <input type="email" name="email" id="newsletter-form-email" placeholder="Email Address"
-                  class="placeholder hide-on-focus" onfocus="this.placeholder = ''"
-                  onblur="this.placeholder = ' Email Address '">
-                <button type="submit" name="submit" id="newsletter-submit"
-                  class="email_icon newsletter-submit button-contactForm">subscribe</button>
-                <div class="mt-10 info"></div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-
-    </div>
-    <div class="copyright_part">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="copyright_text">
-              <P>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                Copyright &copy;
-                <script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made
-                with <i class="ti-heart" aria-hidden="true"></i> by <a href="https://colorlib.com"
-                  target="_blank">Colorlib</a>
-                <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              </P>
-            </div>
+              <div class="col-md-12 form-group " style="border: 1px solid #eee;">
+                <input type="text" class="form-control" id="house" name="house" placeholder="House Name or Company name"
+                  required />
+              </div>
+              <div class="col-md-12 form-group p_star" style="border: 1px solid #eee;">
+                <input type="text" class="form-control" id="town" name="town" placeholder="Town/City" required />
+              </div>
+              <div class="col-md-12 form-group p_star" style="border: 1px solid #eee">
+                <input type="text" class="form-control" id="district" name="district" placeholder="District" required />
+              </div>
+              <div class="col-md-12 form-group" style="border: 1px solid #eee">
+                <input type="text" class="form-control" id="state" name="state" placeholder="State" />
+              </div>
+              <div class="col-md-12 form-group" style="border: 1px solid #eee;">
+                <input type="text" class="form-control" id="pincode" name="pincode" placeholder="Postcode/ZIP" value=""
+                  required />
+              </div>
           </div>
           <div class="col-lg-4">
-            <div class="footer_icon social_icon">
-              <ul class="list-unstyled">
-                <li><a href="#" class="single_social_icon"><i class="fab fa-facebook-f"></i></a></li>
-                <li><a href="#" class="single_social_icon"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="#" class="single_social_icon"><i class="fas fa-globe"></i></a></li>
-                <li><a href="#" class="single_social_icon"><i class="fab fa-behance"></i></a></li>
+            <div class="order_box">
+              <h2>Your Order</h2>
+              <ul class="list">
+                <li>
+                  <a style="color:darkmagenta" href="#">Products
+                    <span>Total</span>
+                  </a>
+                </li>
+                {{#each cartItem.products}}
+
+                <li>
+                  <a href="#">{{pro_id.productName}}
+                    <input type="number" class="form-control" id="MainTotal" name="pro_id" value="{{pro_id._id}}"
+                      hidden />
+                    <span class="middle">x{{this.quantity}} </span>
+                    <span class="last">₹ {{this.subtotal}}</span>
+                  </a>
+                </li>
+                {{/each}}
               </ul>
+              <ul class="list list_2">
+                <li>
+                  <a href="#">Subtotal
+                    <span>₹ {{netTotal}}</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">coupon discount
+                    <span style="color:darkred" id="discount">- ₹ 0</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">Shipping
+                    <span style="color:darkred"> ₹ {{DeliveryCharges}}</span>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">Grand Total
+                    <span id="totalwithCoupon"> ₹ {{grandTotal}}</span>
+                  </a>
+                </li>
+              </ul>
+              <div class="flex-w flex-m w-full-sm mt-3 md-6   ">
+                <button type="button" class="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4  "
+                  style="height:40px ;" data-toggle="modal" data-target="#exampleModalCenter">
+                  Get New Coupon
+                </button>
+                <h6 class="mt-3">Enter your coupon code if you have one.</h6>
+
+                <input type="text" class="form-control" name="coupon" id="couponInput" autocapitalize="on"
+                  placeholder="Coupon Code" />
+                <input type="text" id="couponTotal" name="total" class="sizefull s-text7 p-l-22 p-r-22"
+                  value="{{netTotal}}" hidden>
+                <input type="text" id="DeliveryCharges" name="DeliveryCharge" class="sizefull s-text7 p-l-22 p-r-22"
+                  value="{{DeliveryCharges}}" hidden>
+              </div>
+              <button id="couponBtn" onclick="couponApply()"
+                class="btn flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4 text-black text-center  mt-2  "
+                style="width: 100%;text-decoration: none;">Apply
+                Coupon</button>
+              <div class="mt-3">
+                <div class="alert alert-danger" style="display: none;" id="couponUsed" role="alert">
+                  This Coupon was redeemed
+                </div>
+                <div class="alert alert-danger" style="display: none;" id="couponInvalid" role="alert">
+                  This Coupon is
+                  invalid
+                </div>
+                <div class="alert alert-success" style="display: none;" id="couponSuccess" role="alert">
+                  Coupon Applied
+                  Successfully
+                </div>
+                <div class="alert alert-warning" style="display: none;" id="couponExpired" role="alert">
+                  Sorry!!! Your
+                  Coupon has been Expired
+                </div>
+
+                <div class="alert alert-warning" style="display: none;" id="couponMaxLimit" role="alert">
+                  Sorry!!! Your
+                  Coupon Has Reached Maximum Limit
+                </div>
+              </div>
+              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                  <div class="modal-content">
+
+                    <div class="modal-header">
+                      <h3 class="modal-title" id="exampleModalLongTitle">All Available Coupons</h3>
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    {{#each AllCoupons }}
+                    <div class="modal-body">
+                      <div class="row ">
+                        <div class="col-12 ">
+                          <input type="text" name="" id="{{this._id}}" value="{{this.couponCode}}" hidden>
+                          <div class="card">
+                            <div class="card-body">
+                              <h1 class="card-title">{{this.couponCode}}</h1>
+                              <p class="card-text">You Can get <span style="color:red"> {{this.discount}}%</span>
+                                Discount for this Coupon</p>
+                              <p>Expired on : {{this.expirationTime}}</p>
+                              <button type="button" onclick="copyFunction('{{this._id}}')"
+                                class="btn btn-primary copy-button">Copy</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+                    <div class="modal-footer"></div>
+                  </div>
+                </div>
+              </div>
+              <div class="payment_item">
+                <div class="radion_btn">
+                  <input type="radio" id="cod" name="paymentMethod" value="cod" required />
+                  <label for="cod">Cash on Delivery</label>
+                  <div class="check"></div>
+                </div>
+              </div>
+              <div class="payment_item ">
+                <div class="radion_btn">
+                  <input type="radio" id="razorpay" name="paymentMethod" value="online" />
+                  <label for="razorpay">RazorPay</label>
+                  <div class="check"></div>
+                </div>
+              </div>
+              <button class="btn_3" type="submit">Proceed to Pay</button>
             </div>
           </div>
+          </form>
         </div>
       </div>
     </div>
-  </footer>
-  <!--::footer_part end::-->
+  </section>
+  <!--================Checkout Area R=================-->
 
 
-  {{!-- razorpay --}}
+
+ 
+  <script>
+    function autofill(fname, mobile, email, house, town, district, state, pincode) {
+      document.getElementById('fname').value = fname
+      document.getElementById('mobile').value = mobile
+      document.getElementById('email').value = email
+      document.getElementById('house').value = house
+      document.getElementById('town').value = town
+      document.getElementById('district').value = district
+      document.getElementById('state').value = state
+      document.getElementById('pincode').value = pincode
+
+
+    }
+  </script>
+  <script>
+
+    function copyFunction(couponId) {
+      var copyText = document.getElementById(couponId); copyText.select();
+      copyText.setSelectionRange(0, 99999);
+      navigator.clipboard.writeText(copyText.value);
+      $(".copy-button").on("click", function (e) {
+        e.preventDefault();
+        var self = $(this);
+        console.log(self.data("title"));
+        Swal.fire({
+          position: 'top-center',
+          icon: 'success',
+          title: 'Coupon Copied ' + "'" + copyText.value + "'",
+          showConfirmButton: false,
+          timer: 2000
+        })
+      })
+    }
+  </script>
+  <script>
+    function couponApply() {
+      let couponCode = document.getElementById('couponInput').value     
+      let couponTotal = document.getElementById('couponTotal').value      
+      let DeliveryCharges = document.getElementById('DeliveryCharges').value
+      document.getElementById('couponName').value = couponCode
+
+      $.ajax({
+        url: '/couponApply',
+        data: {
+          coupon: couponCode,
+          total: couponTotal,
+          DeliveryCharges: DeliveryCharges
+        },
+        method: 'post',
+        success: (response) => {
+          if (response.couponSuccess) {
+            let oldTotal = parseInt(document.getElementById('couponTotal').value)
+            let discount = oldTotal - parseInt(response.total) + parseInt(DeliveryCharges)
+            let discountpercentag = parseInt(response.discountpers)
+            document.getElementById('totalwithCoupon').innerHTML ='₹'+ response.total
+            document.getElementById('discountedPrice').value = discount
+            document.getElementById('discount').innerHTML ='₹'+ discount
+            document.getElementById('discoAmountpercentage').value = discountpercentag
+
+
+            document.getElementById('MainTotal').value = response.total
+
+            $("#discountspan").html(parseInt(discount))
+            $('#discountspan').show()
+            $('#discountLabel').show()
+            $('#discounttd').show()
+            $('#newTotal').show()
+            $('#tdTotal').show()
+            $('#totalOriginal').show()
+
+            document.getElementById('grandTotal').innerHTML = '₹' + response.total
+            $('#couponSuccess').show()
+            $('#couponUsed').hide()
+            $('#couponInvalid').hide()
+            $('#couponExpired').hide()
+            $('#couponMaxLimit').hide()
+          }
+
+          if (response.couponUsed) {
+
+            $('#couponUsed').show()
+            $('#couponSuccess').hide()
+            $('#couponInvalid').hide()
+            $('#couponExpired').hide()
+            $('#discountspan').hide()
+            $('#discountLabel').hide()
+            $('#couponMaxLimit').hide()
+          }
+          if (response.invalidCoupon) {
+            $('#couponInvalid').show()
+            $('#couponSuccess').hide()
+            $('#couponUsed').hide()
+            $('#couponExpired').hide()
+            $('#discountspan').hide()
+            $('#discountLabel').hide()
+            $('#couponMaxLimit').hide()
+          }
+          if (response.couponExpired) {
+            $('#couponExpired').show()
+            $('#couponSuccess').hide()
+            $('#couponInvalid').hide()
+            $('#couponUsed').hide()
+            $('#discountspan').hide()
+            $('#discountLabel').hide()
+            $('#couponMaxLimit').hide()
+          }
+          if (response.couponMaxLimit) {
+            $('#couponMaxLimit').show()
+            $('#couponExpired').hide()
+            $('#couponSuccess').hide()
+            $('#couponInvalid').hide()
+            $('#couponUsed').hide()
+            $('#discountspan').hide()
+            $('#discountLabel').hide()
+          }
+        }
+      })
+    }
+  </script>
+
+   {{!-- razorpay --}}
   <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
   {{!-- razorpay --}}
 
@@ -360,7 +427,7 @@
       })
     });
 
-    function razorpayPayment(order) {     
+    function razorpayPayment(order) {
       var options = {
         "key": "rzp_test_qtIvd5oa07B1XV", // Enter the Key ID generated from the Dashboard
         "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
@@ -370,12 +437,11 @@
         "image": "images/toycart_logo-removebg-preview.png",
         "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
         "handler": function (response) {
-
           verifyPayment(response, order)
         },
         "prefill": {
-          "name": "Gaurav Kumar",
-          "email": "gaurav.kumar@example.com",
+          "name": "Toycart",
+          "email": "toycart@example.com",
           "contact": "9999999999"
         },
         "notes": {
@@ -387,9 +453,23 @@
       };
       var rzp1 = new Razorpay(options);
       rzp1.open();
+      {
+        {
+          !--rzp1.on("payment.failed", function (response) {
+            alert(response.error.code);
+            alert(response.error.description);
+            alert(response.error.source);
+            alert(response.error.step);
+            alert(response.error.reason);
+            alert(response.error.metadata.order_id);
+            alert(response.error.metadata.payment_id);
+          });
+        }
+
+      }
     }
 
-    function verifyPayment(payment, order) {    
+    function verifyPayment(payment, order) {
       $.ajax({
         url: '/verifyPayment',
         data: {
@@ -397,7 +477,7 @@
           order
         },
         method: "post",
-        success: (response) => {        
+        success: (response) => {
           if (response.status) {
             location.href = '/viewOrderDetails'
           } else {
@@ -408,6 +488,7 @@
       })
     }
   </script>
+
 
   <!-- jquery plugins here-->
   <!-- jquery -->

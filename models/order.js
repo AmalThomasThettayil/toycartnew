@@ -2,12 +2,19 @@ const mongoose = require("mongoose");
 const orderSchema = new mongoose.Schema({
   user_Id: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
   paymentMethod: { type: String },
+  coupondiscountedPrice:{type:Number,default:0},
+  couponPercent:{type:Number,default:0},
+  couponName:{type:String},
+  PaidAmount:{type:Number},
+  reFund:{type:Number,default:0},
   product: [
     {
       pro_Id: { type: mongoose.Schema.Types.ObjectId, ref: "product" },
       price: { type: Number },
       quantity: { type: Number, default: 1 },
       subTotal: { type: Number, default: 0 },
+      orderCancelled:{type:Boolean,default:false},
+      productName:{type:String},
       status:{type:String,default:'Order placed'}
     },
   ],
