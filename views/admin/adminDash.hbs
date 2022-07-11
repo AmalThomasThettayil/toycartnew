@@ -393,26 +393,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script>
         async function forHome(){ 
-          alert("djfk")
     var totalAmount = []
-    var totalDate = []
-    console.log('success1');
+    var totalDate = []   
     $.ajax({
         url:'/admin/getData',
         method:'post',
-        success:(response)=>{
-          alert(response.dateArray)
-          alert(response.totalArray)
+        success:(response)=>{         
             document.getElementById('totalOrder').innerHTML=response.orderCount
             document.getElementById('totalAmountPaid').innerHTML='Rs '+response.total
             {{!-- document.getElementById('totalAmountRefund').innerHTML='Rs '+response.totalAmountRefund
             document.getElementById('revenue').innerHTML='Rs '+ (parseInt(response.totalAmountPaid)-parseInt(response.totalAmountRefund)) --}}
 
-            
-            
-{{!-- console.log(totalAmount,'toatalAmout');
-
-            console.log(response,'reponse'); --}}
             var ctx = document.getElementById('mychart').getContext('2d');
             var chart = new Chart(ctx, {
                 // The type of chart we want to create
