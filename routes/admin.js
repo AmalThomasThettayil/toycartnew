@@ -265,6 +265,46 @@ router.post("/AddCoupon", (req, res) => {
     res.redirect("/admin/coupon-manegement");
   });
 });
+router.post("/getData", async (req, res) => {
+  const date = new Date(Date.now());
+  const month = date.toLocaleString("default", { month: "long" });
+  adminHelpers.salesReport(req.body).then((data) => {
+    let pendingAmount = data.pendingAmount;
+    let salesReport = data.salesReport;
+    let brandReport = data.brandReport;
+    let orderCount = data.orderCount;
+    let totalAmountPaid = data.totalAmountPaid;
+    let totalAmountRefund = data.totalAmountRefund;
+    let dateArray = [];
+    let totalArray = [];
+    salesReport.forEach((s) => {
+      dateArray.push(`${month}-${s._id} `);
+      totalArray.push(s.total);
+    });
+    let total = 0;
+    salesReport.forEach((s) => {
+      total=total+s.total
+    });
+    console.log(total);
+    let brandArray = [];
+    let sumArray = [];
+    brandReport.forEach((s) => {
+      brandArray.push(s._id);
+      sumArray.push(s.totalAmount);
+    });
+    res.json({
+      total,
+      totalAmountRefund,
+      dateArray,
+      totalArray,
+      brandArray,
+      sumArray,
+      orderCount,
+      totalAmountPaid,
+      pendingAmount,
+    });
+  });
+});
 
 
 module.exports = router;

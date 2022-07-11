@@ -8,6 +8,7 @@ const cartSchema = new mongoose.Schema({
         ref:'product'},
         price:{type:Number},
         quantity:{type:Number,default: 1},
+        productName:{type:String},
         subTotal:{type:Number,default:0}   
 }]
     

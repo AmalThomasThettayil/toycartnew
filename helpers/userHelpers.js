@@ -203,7 +203,7 @@ module.exports = {
           await cart
             .findOneAndUpdate(
               { user_Id: user_Id },
-              { $push: { products: { pro_Id: pro_Id, price: product.price } } }
+              { $push: { products: { pro_Id: pro_Id, price: product.price, productName:product.productName } } }
             )
             .then(async (res) => {
               resolve({ msg: '"Added", count: res.product.length + 1 ' });
