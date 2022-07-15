@@ -181,9 +181,13 @@ module.exports = {
     });
   },
   addToCart: (pro_Id, user_Id) => {
+    console.log(pro_Id);
+    console.log('22222222222222222');
     return new Promise(async (resolve, reject) => {
       const alreadyCart = await cart.findOne({ user_Id: user_Id });
       const product = await productData.findById({ _id: pro_Id });
+      console.log(product);
+      console.log('11111111111111111111');
       if (alreadyCart) {
         let proExist = alreadyCart.products.findIndex(
           (products) => products.pro_Id == pro_Id
@@ -207,8 +211,8 @@ module.exports = {
                 $push: {
                   products: {
                     pro_Id: pro_Id,
-                    price: pro_Id.price,
-                    productName: pro_Id.productName,
+                    price: product.price,
+                    productName: product.productName,
                   },
                 },
               }
@@ -220,7 +224,7 @@ module.exports = {
       } else {
         const newcart = new cart({
           user_Id: user_Id,
-          products: { pro_Id: pro_Id, price: pro_Id.price },
+          products: { pro_Id: pro_Id, price: product.price },
         });
         await newcart.save((err, result) => {
           if (err) {
@@ -277,6 +281,8 @@ module.exports = {
         .populate("products.pro_Id")
         .lean();
       resolve(cartItem);
+      console.log('5555555555');
+      console.log(cartItem);
     });
   },
   getProductDetails: (proId) => {
@@ -453,7 +459,7 @@ module.exports = {
         ordered_on: new Date(),
         product: cartItem.products,
         deliveryDetails: {
-          name: order.name,
+          name: order.fname,
           number: order.number,
           email: order.email,
           house: order.house,

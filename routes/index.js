@@ -265,10 +265,10 @@ router.get("/add-tocart/:id", verifyLogin, (req, res) => {
   console.log("add to cart");
   userHelpers
     .addToCart(req.params.id, req.session.user._id)
-    .then((response) => {     
+    .then((response) => {
       res.json(response);
     })
-    .catch((err) => {     
+    .catch((err) => {
       res.redirect("/home");
     });
 });
@@ -346,12 +346,12 @@ router.get("/checkout", async (req, res) => {
     cartCount,
     wishCount,
     category,
-    AllCoupons
+    AllCoupons,
   });
 });
 router.post("/placeOrder", async (req, res) => {
   const cartItem = await userHelpers.getCartItems(req.session.user._id);
-  const totalAmount = await userHelpers.totalAmount(req.session.user._id);  
+  const totalAmount = await userHelpers.totalAmount(req.session.user._id);
   const netTotal = totalAmount.grandTotal.total;
   const DeliveryCharges = await userHelpers.deliveryCharge(netTotal);
   const grandTotal = await userHelpers.grandTotal(netTotal, DeliveryCharges);
@@ -368,12 +368,14 @@ router.post("/placeOrder", async (req, res) => {
       req.session.orderId = response._id;
       const orderId = response._id;
       console.log(orderId);
-      if (req.body["paymentMethod"] === "cod") {       
+      if (req.body["paymentMethod"] === "cod") {
         res.json({ codSuccess: true });
       } else {
-        userHelpers.createRazorpay(orderId,  req.body.mainTotal).then((response) => {
-          res.json(response);
-        });
+        userHelpers
+          .createRazorpay(orderId, req.body.mainTotal)
+          .then((response) => {
+            res.json(response);
+          });
       }
     });
 });
@@ -413,6 +415,7 @@ router.get("/orderTracking/:id", async (req, res) => {
   let user = req.session.user;
   userHelpers.getorderProducts(orderId).then((response) => {
     const orderProducts = response;
+    console.log(orderProducts);
     res.render("user/orderTracking", { user, orderProducts, layout: false });
   });
 });
@@ -497,7 +500,7 @@ router.get("/filterPage", async (req, res) => {
       userHelpers.getCartCount(user),
       userHelpers.getWishCount(user),
     ]);
-  } 
+  }
   if (user) {
     cartcount = await userHelpers.getCartCount(req.session.user._id);
   }
@@ -512,7 +515,7 @@ router.get("/filterPage", async (req, res) => {
     wishCount,
   });
 });
-router.post("/couponApply", async (req, res) => {  
+router.post("/couponApply", async (req, res) => {
   DeliveryCharges = parseInt(req.body.DeliveryCharges);
   let todayDate = new Date().toISOString().slice(0, 10);
   let userId = req.session.user._id;
@@ -544,34 +547,34 @@ router.get("/userprofile", verifyLogin, async (req, res) => {
   wishCount = await userHelpers.getWishCount(req.session.user._id);
   const user = await userHelpers.userprofile(req.session.user._id);
   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  res.render("user/userProfile", { user,cartCount,wishCount });
+  res.render("user/userProfile", { user, cartCount, wishCount });
 });
 router.get("/edit-profile", verifyLogin, async (req, res) => {
   const Addresses = await userHelpers.getAddresses(req.session.user);
   cartCount = await userHelpers.getCartCount(req.session.user._id);
   wishCount = await userHelpers.getWishCount(req.session.user._id);
   const user = await userHelpers.userprofile(req.session.user._id);
-  
-  res.render("user/editprofile", { Addresses,user,cartCount,wishCount });
+
+  res.render("user/editprofile", { Addresses, user, cartCount, wishCount });
 });
 router.get("/address-page", verifyLogin, async (req, res) => {
   let user = req.session.user;
   const Addresses = await userHelpers.getAddresses(req.session.user);
   cartCount = await userHelpers.getCartCount(req.session.user._id);
   wishCount = await userHelpers.getWishCount(req.session.user._id);
-    res.render("user/address", { Addresses,user,cartCount,wishCount});
+  res.render("user/address", { Addresses, user, cartCount, wishCount });
 });
-router.get("/addAddress", verifyLogin,async (req, res) => {
+router.get("/addAddress", verifyLogin, async (req, res) => {
   let user = req.session.user;
   wishCount = await userHelpers.getWishCount(req.session.user._id);
   cartCount = await userHelpers.getCartCount(req.session.user._id);
-  res.render("user/addaddress", { user,cartCount,wishCount});
+  res.render("user/addaddress", { user, cartCount, wishCount });
 });
 
 router.post("/addAddress", verifyLogin, (req, res) => {
   let user = req.session.user;
-  userHelpers.addAddress(req.body,user._id).then((response)=>{    
+  userHelpers.addAddress(req.body, user._id).then((response) => {
     res.redirect("/address-page");
-  })
+  });
 });
 module.exports = router;
