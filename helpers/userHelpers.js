@@ -203,7 +203,15 @@ module.exports = {
           await cart
             .findOneAndUpdate(
               { user_Id: user_Id },
-              { $push: { products: { pro_Id: pro_Id, price: product.price, productName:product.productName } } }
+              {
+                $push: {
+                  products: {
+                    pro_Id: pro_Id,
+                    price: pro_Id.price,
+                    productName: pro_Id.productName,
+                  },
+                },
+              }
             )
             .then(async (res) => {
               resolve({ msg: '"Added", count: res.product.length + 1 ' });
@@ -212,7 +220,7 @@ module.exports = {
       } else {
         const newcart = new cart({
           user_Id: user_Id,
-          products: { pro_Id: pro_Id, price: product.price },
+          products: { pro_Id: pro_Id, price: pro_Id.price },
         });
         await newcart.save((err, result) => {
           if (err) {
@@ -275,7 +283,7 @@ module.exports = {
     console.log(proId);
     return new Promise(async (resolve, reject) => {
       const product = await productData
-        .findOne({ _id: proId })        
+        .findOne({ _id: proId })
         .lean()
         .then((product) => {
           resolve(product);
@@ -363,8 +371,8 @@ module.exports = {
       }
     });
   },
-  totalAmount: (userData) => {   
-    const id = mongoose.Types.ObjectId(userData);    
+  totalAmount: (userData) => {
+    const id = mongoose.Types.ObjectId(userData);
     return new Promise(async (resolve, reject) => {
       const total = await cart.aggregate([
         {
@@ -393,7 +401,7 @@ module.exports = {
           },
         },
       ]);
-      
+
       console.log("total amount");
       if (total.length == 0) {
         resolve({ status: true });
@@ -415,15 +423,22 @@ module.exports = {
   grandTotal: (netTotal, deliveryCharge) => {
     return new Promise((resolve, reject) => {
       const grandTotal = netTotal + deliveryCharge;
-      resolve(grandTotal);      
+      resolve(grandTotal);
     });
   },
-  placeOrder: (order, cartItem, grandTotal, DeliveryCharges, netTotal, user) => {
+  placeOrder: (
+    order,
+    cartItem,
+    grandTotal,
+    DeliveryCharges,
+    netTotal,
+    user
+  ) => {
     return new Promise(async (resolve, reject) => {
       grandTotal = parseInt(order.total) + parseInt(DeliveryCharges);
       let id = mongoose.Types.ObjectId(user._id);
       const status = order.paymentMethod === "cod" ? "placed" : "pending";
-     
+
       const orderObj = await orderModel({
         user_Id: user._id,
         Total: grandTotal,
@@ -479,13 +494,11 @@ module.exports = {
   },
   getorderProducts: (orderid) => {
     return new Promise(async (resolve, reject) => {
-      const orderdetails = await orderModel
-        .findOne({ _id: orderid })        
-        .lean();
+      const orderdetails = await orderModel.findOne({ _id: orderid }).lean();
       resolve(orderdetails);
     });
   },
-  createRazorpay: (orderid, grandTotal) => {    
+  createRazorpay: (orderid, grandTotal) => {
     return new Promise((resolve, reject) => {
       instance.orders.create(
         {
@@ -496,7 +509,7 @@ module.exports = {
         function (err, order) {
           if (err) {
             console.log(err);
-          } else {            
+          } else {
             resolve(order);
           }
         }
@@ -514,9 +527,9 @@ module.exports = {
           details["payment[razorpay_payment_id]"]
       );
       hmac = hmac.digest("hex");
-      if (hmac == details["payment[razorpay_signature]"]) {        
+      if (hmac == details["payment[razorpay_signature]"]) {
         resolve();
-      } else {        
+      } else {
         reject();
       }
     });
@@ -559,7 +572,7 @@ module.exports = {
         .find({ productType: "Featured Product" })
         .lean()
         .populate("subCategory")
-        .limit(4);     
+        .limit(4);
       resolve(FeaturedCat);
     });
   },
@@ -774,7 +787,7 @@ module.exports = {
       resolve(Editproflie);
     });
   },
-  addAddress: (data,userId) => {
+  addAddress: (data, userId) => {
     console.log();
     return new Promise(async (resolve, reject) => {
       const user = userData.findOne({ _id: userId });
@@ -799,6 +812,4 @@ module.exports = {
       resolve();
     });
   },
-
-
 };
